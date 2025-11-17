@@ -86,6 +86,11 @@ export class UI {
             this.infoMessages.scale = `${selectedObject.scale.x.toFixed(2)}, ${selectedObject.scale.y.toFixed(2)}, ${selectedObject.scale.z.toFixed(2)}`
             this.infoScale.updateDisplay()
         })
+        this.scaleYController = this.transformFolder.add(selectedObject.scale, 'y', 0.01, 10).name('Scale Y').onChange((v) => {
+            selectedObject.scale.y = v
+            this.infoMessages.scale = `${selectedObject.scale.x.toFixed(2)}, ${selectedObject.scale.y.toFixed(2)}, ${selectedObject.scale.z.toFixed(2)}`
+            this.infoScale.updateDisplay()
+        })
         this.scaleZController = this.transformFolder.add(selectedObject.scale, 'z', 0.01, 10).name('Scale Z').onChange((v) => {
             selectedObject.scale.z = v
             this.infoMessages.scale = `${selectedObject.scale.x.toFixed(2)}, ${selectedObject.scale.y.toFixed(2)}, ${selectedObject.scale.z.toFixed(2)}`
