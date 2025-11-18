@@ -172,7 +172,7 @@ export class Scene {
             if (loadedParams.skybox) params.skybox = loadedParams.skybox
             if (loadedParams.ground) params.ground = loadedParams.ground
             if (loadedParams.sun) params.sun = loadedParams.sun
-            this.addSkybox(params.skybox.file)
+            this.changeSkybox(params.skybox)
             this.changeGround(params.ground.texture, params.ground.repeats)
             this.updateSun(
                 params.sun.color,
