@@ -22,6 +22,8 @@ export class Application {
 
         this.ui = new UI()
         this.ui.addWASDControls(this.globalParams, () => this.camera.toggleControls(this.globalParams))
+        // Camera controls (FOV)
+        this.ui.addCameraUI(this.globalParams, (v) => this.camera.setFov(v))
         this.ui.addSceneUI(
             () => {
                 this.scene.exportScene({ skybox : this.skyboxParams, ground: this.groundParams})
@@ -326,6 +328,7 @@ export class Application {
 
         this.globalParams = {
             useWASD: false,
+            fov: 75,
         }
     }
 }

@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 export class Camera {
     constructor(renderer, params) {
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+        this.camera = new THREE.PerspectiveCamera((params && params.fov) || 75, window.innerWidth / window.innerHeight, 0.1, 1000)
         this.defaultPosition()
 
         this.controls = new OrbitControls(this.camera, renderer.domElement)
@@ -68,9 +68,21 @@ export class Camera {
     }
 
     defaultPosition() {
-        this.camera.position.z = 50
-        this.camera.position.y = 20
-        this.camera.lookAt(0, 0, 0)
+        // reset position
+        this.camera.position.set(0, 20, 50)
+        // reset orientation (quaternion) and internal yaw/pitch
+        this.camera.quaternion.identity()
+        this.yaw = 0
+        this.pitch = 0
+        // ensure rotation values are zeroed
+        this.camera.rotation.set(0, 0, 0)
+        // reset orbit controls target if present
+        if (this.controls) {
+            this.controls.target.set(0, 0, 0)
+            this.controls.update()
+        } else {
+            this.camera.lookAt(0, 0, 0)
+        }
     }
 
     toggleControls(params) {
@@ -91,7 +103,11 @@ export class Camera {
         }
     }
 
-    defaultPosition() {
-        this.camera.position.set(0, 20, 50)
+    setFov(fov) {
+        if (!this.camera) return
+        this.camera.fov = fov
+        this.camera.updateProjectionMatrix()
     }
+
+    
 }

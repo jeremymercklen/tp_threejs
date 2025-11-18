@@ -15,6 +15,11 @@ export class UI {
         this.gui.add(params, 'useWASD').name('WASD Mode').onChange(onChange)
     }
 
+    addCameraUI(params, onChange) {
+        const folder = this.gui.addFolder('Camera')
+        folder.add(params, 'fov', 30, 120).name('FOV').onChange(onChange)
+    }
+
     addSceneUI(onExport, onImport, onClear) {
         const folder = this.gui.addFolder('Scene')
         folder.add({export: onExport}, 'export').name('Export Scene to JSON')
