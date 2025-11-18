@@ -106,7 +106,21 @@ export class Scene {
 
     exportScene(params) {
         let exportData = {
-            params: params,
+            params: {
+                skybox: params.skybox.file,
+                ground: {
+                    texture: params.ground.texture,
+                    repeats: params.ground.repeats
+                },
+                sun: {
+                    color: this.sun.color.getHex(),
+                    intensity: this.sun.intensity,
+                    position: {
+                        x: this.sun.position.x,
+                        z: this.sun.position.z
+                    }
+                }
+            },
             nodes: [],
         };
         let toExport = new Set()
@@ -155,11 +169,17 @@ export class Scene {
         const url = URL.createObjectURL(file)
         try {
             const loadedParams = await this.loadScene(url);
-            console.log(loadedParams)
             if (loadedParams.skybox) params.skybox = loadedParams.skybox
             if (loadedParams.ground) params.ground = loadedParams.ground
+            if (loadedParams.sun) params.sun = loadedParams.sun
             this.addSkybox(params.skybox.file)
             this.changeGround(params.ground.texture, params.ground.repeats)
+            this.updateSun(
+                params.sun.color,
+                params.sun.intensity,
+                params.sun.position.x,
+                params.sun.position.z
+            )
         } catch (err) {
             alert('Import failed: ' + (err?.message ?? err));
         } finally {

@@ -60,7 +60,6 @@ export class Application {
 
         this.renderer.domElement.addEventListener('click', (event) => {
             if (this.globalParams.useWASD) return;
-            // clear previous highlight
             this.clearHighlight()
             const rect = this.renderer.domElement.getBoundingClientRect()
             const mouse = new THREE.Vector2(
@@ -171,6 +170,8 @@ export class Application {
             importInput.value = ''
         });
 
+        
+
         this.renderer.setAnimationLoop(this.render.bind(this))
     }
 
@@ -202,7 +203,6 @@ export class Application {
             const material = new THREE.MeshStandardMaterial({ color: new THREE.Color(color) })
             const mesh = new THREE.Mesh(geometry, material)
 
-            // position mesh so it's visible (place on ground or above origin)
             if (type === 'Plane') mesh.position.set(0, 0.01, 0)
             else if (type === 'Sphere') mesh.position.set(0, params.radius, 0)
             else if (type === 'Box') mesh.position.set(0, params.size / 2, 0)
@@ -212,7 +212,6 @@ export class Application {
             mesh.castShadow = true
             mesh.receiveShadow = true
 
-            // mark selectable
             mesh.traverse(o => {
                 if (o.isMesh) {
                     o.userData = { isSelectable: true, object: mesh }
@@ -221,7 +220,6 @@ export class Application {
 
             this.scene.scene.add(mesh)
 
-            // auto-select the new mesh
             this.selectedMesh = mesh
             this.selectedObject = mesh
             this.ui.updateSelectionUI(this.selectedMesh)

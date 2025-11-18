@@ -68,15 +68,11 @@ export class Camera {
     }
 
     defaultPosition() {
-        // reset position
         this.camera.position.set(0, 20, 50)
-        // reset orientation (quaternion) and internal yaw/pitch
         this.camera.quaternion.identity()
         this.yaw = 0
         this.pitch = 0
-        // ensure rotation values are zeroed
         this.camera.rotation.set(0, 0, 0)
-        // reset orbit controls target if present
         if (this.controls) {
             this.controls.target.set(0, 0, 0)
             this.controls.update()
